@@ -5,11 +5,11 @@ export default class DiamondSweeper extends React.Component {
             super(props);
         }
         static DiamondSweeperRow = ({children}) =>  {
-             return <div style={{"display":"flex"}}>{children}</div>;
+             return <div className="diamond-sweeper-row">{children}</div>;
         };
 
         render() {
-            return (<div style={{"position":"absolute" ,"top":"30px","left":"50px"}}>
+            return (<div className="diamond-sweeper">
                     {this.props.children}
                 </div>)
         }

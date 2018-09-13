@@ -2,7 +2,7 @@ const webpack = require("webpack");
 const process = require('process');
 const path = require('path');
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const PUBLIC_PATH='/assets/';
 const OUTPUT_DIRECTORY = __dirname + `/public/${PUBLIC_PATH}`;
@@ -17,6 +17,7 @@ const BABEL_PRESET = {
 module.exports = {
     entry: {
       app: "./app/index.js",
+      style: "./app/stylesheets/style.scss"
     },
     output: {
         path: OUTPUT_DIRECTORY,
@@ -25,7 +26,14 @@ module.exports = {
     },
     module: {
       rules: [
-        { test: /\.(sass|scss)$/, loader: ExtractTextPlugin.extract('css-loader!sass-loader') },
+        {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader',
+        ],
+      },
         {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -43,5 +51,13 @@ module.exports = {
         }
       ]
     },
+    plugins: [
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: '[name].css' ,
+      chunkFilename: '[id].css' ,
+    })
+  ]
 };
 
