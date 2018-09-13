@@ -1,3 +1,8 @@
+
+$box-dim: 50px;
+$background-color: #e6d4ef;
+
+
 .diamond-sweeper {
     position: absolute;
     top: 30px;
@@ -7,11 +12,12 @@
     display: flex;
 }
 .diamond-sweeper-node {
-    background-color: #e6d4ef;
-    width: 50px;
-    height: 50px;
+    background-color: $background-color;
+    width: $box-dim;
+    height: $box-dim;
     border: solid 1px black;
     background-image:url('/assets/question.png');
+    cursor: pointer;
 }
 .resume {
     width: 100px;
@@ -22,13 +28,14 @@
 }
 
 .gameover {
-    margin-top : 100px;
-    margin-left: 100px;
+    margin: 100px;
+    padding: 50px;
+    background-color: $background-color;
 }
 
 @mixin direction($image) {
-    width: 50px;
-    height: 50px;
+    width: $box-dim;
+    height: $box-dim;
     background-image:url($image);
     background-repeat:no-repeat;
     background-position: center;
@@ -47,6 +54,6 @@
     @include direction('/assets/iconmonstr-arrow-77.svg');
 }
 .thumbnail {
-    width: 50px;
-    height: 50px;
+    width: $box-dim;
+    height: $box-dim;
 }
