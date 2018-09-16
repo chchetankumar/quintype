@@ -9,21 +9,21 @@ import Dispatcher from './flux/dispatcher/dispatcher';
 let ScoreCard = ({message}) => <> {message()} </>;
 
 /* The Root App. It takes the dimension as the props and makes a grid with dimension*dimension squares */
-class App extends React.Component { 
+export default class App extends React.Component { 
 
     constructor(props){
         super(props);
         this.state = { 
                 'GameInProgress': undefined
         };
+        /* Add Event Listener to detect Store Initialization and if Game is Over */
         DiamondSweeperStore.on('STORE_INIT', this.onInit.bind(this));
+        DiamondSweeperStore.on('GAME_OVER', this.onGameOver.bind(this));
     }
-    componentWillMount() {
+
+    componentDidMount(){
         /* Initialise the store */
         Dispatcher.dispatch( { type: 'INIT', payload: this.props.dimension} );
-        
-        /* Add Event Listener to detect Game is Over */
-        DiamondSweeperStore.on('GAME_OVER', this.onGameOver.bind(this));
     }
 
     onInit(){
@@ -58,7 +58,7 @@ class App extends React.Component {
                         {nodes}
                     </DiamondSweeper.DiamondSweeperRow>);
             }
-            return(<DiamondSweeper position={DiamondSweeperStore.position() }>
+            return(<DiamondSweeper>
                         {rows}
                    </DiamondSweeper>)
         } else if (this.state.GameInProgress == false) {

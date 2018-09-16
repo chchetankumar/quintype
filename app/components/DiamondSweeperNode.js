@@ -6,19 +6,19 @@ export default class DiamondSweeperNode extends React.Component {
 
     constructor(props){
         super(props);
-        this.state = { 'showDiamond': null};
+        this.state = { 'showDiamond': DiamondSweeperStore.touched(this.props.index)};
         this.node = React.createRef();
     }
-    
+
     clickHandle() {
-       /* Clear Out all other hints */
+       /* Clear Out all other hints everytime a node is clicked*/
         for ( let dir of ['left','right','up','down'] ) {
             if (document.getElementsByClassName(dir).length > 0 ) {
                document.getElementsByClassName(dir)[0].remove();
             }
         }
 
-        if(this.DiamondPositions[this.props.index]) {
+        if(DiamondSweeperStore.checkPosition(this.props.index) == true) {
             this.setState( {
                 'showDiamond': true
             });
@@ -32,13 +32,17 @@ export default class DiamondSweeperNode extends React.Component {
     }
 
     render() {
-        this.DiamondPositions = DiamondSweeperStore.position();
         let img = <img  src="/assets/question.png" className="thumbnail"></img>;
         if (this.state.showDiamond == true) {
             img = <img  src="/assets/diamond.png" className="thumbnail"></img>
         } else if ( this.state.showDiamond == false) {
-            let closestDiamondPosition = DiamondSweeperStore.findClosestDiamond(this.props.index );
-            img = <div class={closestDiamondPosition}></div>;
+            if ( this.node.current != null ) {
+                    let closestDiamondPosition = DiamondSweeperStore.findClosestDiamond(this.props.index );
+                    img = <div class={closestDiamondPosition}></div>;
+            } else {
+            /* set the image to null if its being reconstructed from localStorage */
+                    img = null;
+            }
         }
         return (<div className="diamond-sweeper-node" onClick={this.clickHandle.bind(this)} ref={this.node}>
                             { img }
